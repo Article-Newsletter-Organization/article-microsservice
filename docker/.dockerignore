@@ -1,0 +1,5 @@
+.idea
+.gradle
+.gitignore
+docker
+gradlew.bat
