@@ -1,6 +1,7 @@
 package br.com.devtops.microservice.article.core.usecases;
 
 import br.com.devtops.microservice.article.core.dtos.CreateArticleDTO;
+import br.com.devtops.microservice.article.core.dtos.UpdateArticleDTO;
 import br.com.devtops.microservice.article.core.entities.Article;
 import br.com.devtops.microservice.article.core.shared.ArticleRepository;
 import br.com.devtops.microservice.article.exceptions.CannotFindResourceException;
@@ -9,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,7 +34,7 @@ public class ArticleService {
         return repository.findAll();
     }
 
-    public Article getById(Long id) {
+    public Article getById(String id) {
         Optional<Article> optionalArticle = repository.findById(id);
         if(optionalArticle.isEmpty())
             throw new CannotFindResourceException("Article not found!");
@@ -40,19 +42,25 @@ public class ArticleService {
         return optionalArticle.get();
     }
 
-    public Article update(Article article) {
-        Optional<Article> optionalArticle = repository.findById(article.getId());
+    public Article update(String id, UpdateArticleDTO dto) {
+        Optional<Article> optionalArticle = repository.findById(id);
         if(optionalArticle.isEmpty())
             throw new CannotFindResourceException("Article not found!");
 
-        boolean isNameInUse = repository.findByTitle(article.getTitle()).stream().anyMatch(articleToCheck -> Objects.equals(articleToCheck.getTitle(), article.getTitle()));
-        if(isNameInUse)
-            throw new DuplicatedDataException("Title already in use!");
+        if(dto.getTitle().isPresent()) {
+            boolean isNameInUse = repository.findByTitle(dto.getTitle().get())
+                    .stream()
+                    .anyMatch(articleToCheck -> Objects.equals(articleToCheck.getTitle(), dto.getTitle().get()));
+            if(isNameInUse)
+                throw new DuplicatedDataException("Title already in use!");
+        }
 
-        return repository.save(article);
+        dto.merge(optionalArticle.get());
+
+        return repository.save(optionalArticle.get());
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         Optional<Article> optionalArticle = repository.findById(id);
         if(optionalArticle.isEmpty())
             throw new CannotFindResourceException("Article not found!");

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -13,6 +15,8 @@ public class CreateArticleDTO {
 
     private String subtitle;
 
+    private String objectId;
+
     private String description;
 
     public Article convertToArticle(){
@@ -20,6 +24,8 @@ public class CreateArticleDTO {
                 .title(this.getTitle())
                 .subtitle(this.getSubtitle())
                 .description(this.getDescription())
+                .objectId(this.getObjectId())
+                .postedAt(new Date())
                 .build();
     }
 }
