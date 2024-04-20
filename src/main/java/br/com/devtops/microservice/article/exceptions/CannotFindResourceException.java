@@ -1,7 +1,16 @@
 package br.com.devtops.microservice.article.exceptions;
 
-public class CannotFindResourceException  extends RuntimeException{
+import br.com.devtops.microservice.article.exceptions.protocols.CustomException;
+
+public class CannotFindResourceException  extends CustomException {
+    static public String defaultName = "CANNOT_FIND_RESOURCE_EXCEPTION";
+    static public String defaultMessage = "Resource not found.";
+
     public CannotFindResourceException(String message){
-        super(message);
+        super(defaultName, message);
+    }
+
+    public CannotFindResourceException(){
+        super(defaultName, defaultMessage);
     }
 }
