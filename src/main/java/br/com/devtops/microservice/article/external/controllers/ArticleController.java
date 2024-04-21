@@ -5,14 +5,17 @@ import br.com.devtops.microservice.article.core.dtos.UpdateArticleDTO;
 import br.com.devtops.microservice.article.core.usecases.ArticleService;
 import br.com.devtops.microservice.article.core.entities.Article;
 import br.com.devtops.microservice.article.external.protocols.CustomResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Validated
 @RequestMapping("/article")
 public class ArticleController {
 
@@ -29,12 +32,12 @@ public class ArticleController {
     }
 
     @PostMapping
-    public CustomResponse<Article> createArticle(@RequestBody() CreateArticleDTO article){
+    public CustomResponse<Article> createArticle(@Valid @RequestBody() CreateArticleDTO article){
         return new CustomResponse<>(service.create(article), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public CustomResponse<Article> updateArticle(@PathVariable("id") String id, @RequestBody() UpdateArticleDTO dto){
+    public CustomResponse<Article> updateArticle(@PathVariable("id") String id, @Valid @RequestBody() UpdateArticleDTO dto){
         return new CustomResponse<>(service.update(id, dto), HttpStatus.OK);
     }
 

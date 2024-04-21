@@ -19,6 +19,10 @@ public class CustomResponse<T> extends ResponseEntity<CustomResponse.Body<T>> {
         super(new Body<>(null, error), HttpStatusCode.valueOf(status.value()));
     }
 
+    public CustomResponse(CustomHttpException error) {
+        super(new Body<>(null, error), HttpStatusCode.valueOf(error.getStatusCode()));
+    }
+
     public CustomResponse(HttpStatusCode status) {
         super(new Body<>(null, null), HttpStatusCode.valueOf(status.value()));
     }
@@ -31,5 +35,7 @@ public class CustomResponse<T> extends ResponseEntity<CustomResponse.Body<T>> {
         final private Date timestamp = new Date();
     }
 
-
+    public ResponseEntity<Object> getResponseEntity() {
+        return new ResponseEntity<>(this.getBody(), this.getStatusCode());
+    }
 }
