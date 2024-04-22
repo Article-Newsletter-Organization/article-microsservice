@@ -49,10 +49,10 @@ public class ArticleService {
         if(optionalArticle.isEmpty())
             throw new CustomHttpException(new CannotFindResourceException("Article not found!"), HttpStatus.NOT_FOUND);
 
-        if(dto.getTitle().isPresent()) {
-            boolean isNameInUse = repository.findByTitle(dto.getTitle().get())
+        if(dto.getTitle() != null) {
+            boolean isNameInUse = repository.findByTitle(dto.getTitle())
                     .stream()
-                    .anyMatch(articleToCheck -> Objects.equals(articleToCheck.getTitle(), dto.getTitle().get()));
+                    .anyMatch(articleToCheck -> Objects.equals(articleToCheck.getTitle(), dto.getTitle()));
             if(isNameInUse)
                 throw new CustomHttpException(new DuplicatedDataException("Title already in use!"), HttpStatus.CONFLICT);
         }

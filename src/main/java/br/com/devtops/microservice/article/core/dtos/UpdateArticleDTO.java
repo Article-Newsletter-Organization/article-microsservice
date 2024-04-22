@@ -1,37 +1,63 @@
 package br.com.devtops.microservice.article.core.dtos;
 
 import br.com.devtops.microservice.article.core.entities.Article;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 public class UpdateArticleDTO {
-    @Builder.Default
     @Size(max = 100)
-    private Optional<String> title = Optional.empty();
+    private String title;
 
-    @Builder.Default
     @Size(max = 100)
-    private Optional<String> subtitle = Optional.empty();
+    private String subtitle;
 
-    @Builder.Default
     @Size(max = 50)
-    private Optional<String> objectId = Optional.empty();
+    private String objectId;
 
-    @Builder.Default
     @Size(max = 50)
-    private Optional<String> description = Optional.empty();
+    private String description;
 
     public void merge(Article article) {
-        article.setTitle(this.title.orElse(article.getTitle()));
-        article.setSubtitle(this.subtitle.orElse(article.getSubtitle()));
-        article.setObjectId(this.objectId.orElse(article.getObjectId()));
-        article.setDescription(this.description.orElse(article.getDescription()));
+        Map<String, String> attributesToUpdate = getAllAttributes();
+        Class<?> clazz = Article.class;
+
+        for (Map.Entry<String, String> entry : attributesToUpdate.entrySet()) {
+            String attributeName = entry.getKey();
+            String attributeValue = entry.getValue();
+
+            try {
+                Field field = clazz.getDeclaredField(attributeName);
+                field.setAccessible(true);
+                field.set(article, attributeValue);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Map<String, String> getAllAttributes() {
+        Map<String, String> attributes = new HashMap<>();
+        Class<?> clazz = this.getClass();
+
+        try {
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                Object value = field.get(this);
+                if (value != null) {
+                    attributes.put(field.getName(), value.toString());
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return attributes;
     }
 }
