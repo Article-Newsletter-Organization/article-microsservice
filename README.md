@@ -20,7 +20,7 @@ Make sure Java is in the specified version and that the databases are configured
 3. Configure environment variables by creating a `.env` file. Use the `.env.example` file as an example. [Example `.env.example` file](.env.example)
 4. Start the application using the command:
     ```bash
-        ./gradlew bootRun ./gradlew bootRun --main-class=br.com.devtops.microsservice.ArticleApplication
+        ./gradlew bootRun ./gradlew bootRun --main-class=br.com.anp.microservice.article.ArticleApplication
     ```
    
 ### Docker integration
