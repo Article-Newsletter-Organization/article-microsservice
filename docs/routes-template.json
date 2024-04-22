@@ -1,0 +1,284 @@
+{
+  "endpoints": [
+    {
+      "path": "/articles",
+      "description": "This endpoint aims to allow manipulation of articles posted by authors.",
+      "allow_methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "url": "http://localhost:8080/articles",
+      "request_methods": [
+        {
+          "method": "GET",
+          "request_details": {
+            "url": "http://localhost:8080/articles",
+            "body": {},
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 200,
+              "body": {
+                "data": [
+                  {
+                    "id": "<UUID>",
+                    "title": "A title representing the article.",
+                    "subtitle": "A brief sample of the article's subject.",
+                    "objectId": "<UUID>",
+                    "description": "A short description of the article",
+                    "postedAt": "2024-04-22T17:53:29.886+00:00",
+                    "authorId": "<UUID>"
+                  }
+                ],
+                "error": null,
+                "timestamp": "2024-04-22T17:53:29.981+00:00"
+              },
+              "headers": []
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "request_details": {
+            "url": "http://localhost:8080/articles/<ARTICLE_UUID>",
+            "body": {},
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 200,
+              "body": {
+                "data": {
+                  "id": "<UUID>",
+                  "title": "A title representing the article.",
+                  "subtitle": "A brief sample of the article's subject.",
+                  "objectId": "<UUID>",
+                  "description": "A short description of the article",
+                  "postedAt": "2024-04-22T17:53:29.886+00:00",
+                  "authorId": "<UUID>"
+                },
+                "error": null,
+                "timestamp": "2024-04-22T17:53:29.981+00:00"
+              },
+              "headers": []
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "request_details": {
+            "url": "http://localhost:8080/articles",
+            "body": {
+              "title": "A title representing the article.",
+              "subtitle": "A brief sample of the article's subject.",
+              "objectId": "<UUID>",
+              "description": "A short description of the article",
+              "authorId": "<UUID>"
+            },
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 201,
+              "body": {
+                "data": {
+                  "id": "<UUID>",
+                  "title": "A title representing the article.",
+                  "subtitle": "A brief sample of the article's subject.",
+                  "objectId": "<UUID>",
+                  "description": "A short description of the article",
+                  "postedAt": "2024-04-22T17:53:29.886+00:00",
+                  "authorId": "<UUID>"
+                },
+                "error": null,
+                "timestamp": "2024-04-22T17:53:29.981+00:00"
+              },
+              "headers": []
+            },
+            {
+              "name": "Title is already in use",
+              "status": 409,
+              "body": {
+                "data": null,
+                "error": {
+                  "message": "Title already in use!",
+                  "status": "CONFLICT",
+                  "statusCode": 409,
+                  "details": {
+                    "name": "DUPLICATED_DATA_EXCEPTION",
+                    "message": "Title already in use!",
+                    "stack": null,
+                    "issues": []
+                  }
+                },
+                "timestamp": "2024-04-22T17:55:23.745+00:00"
+              },
+              "headers": []
+            },
+            {
+              "name": "Invalid data request body",
+              "status": 400,
+              "body": {
+                "data": null,
+                "error": {
+                  "message": "The data received are not valid.",
+                  "status": "BAD_REQUEST",
+                  "statusCode": 400,
+                  "details": {
+                    "name": "VALIDATION_EXCEPTION",
+                    "message": "The data received are not valid.",
+                    "stack": null,
+                    "issues": [],
+                    "fields": [
+                      {
+                        "target": "<field name>",
+                        "message": "<error message>"
+                      }
+                    ]
+                  }
+                },
+                "timestamp": "2024-04-22T17:56:18.722+00:00"
+              },
+              "headers": []
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "request_details": {
+            "url": "http://localhost:8080/articles/<ARTICLE_UUID>",
+            "body": {
+              "title": "A title representing the article.",
+              "subtitle": "A brief sample of the article's subject.",
+              "objectId": "<UUID>",
+              "description": "A short description of the article",
+              "authorId": "<UUID>"
+            },
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 200,
+              "body": {
+                "data": {
+                  "id": "<UUID>",
+                  "title": "A title representing the article.",
+                  "subtitle": "A brief sample of the article's subject.",
+                  "objectId": "<UUID>",
+                  "description": "A short description of the article",
+                  "postedAt": "2024-04-22T17:53:29.886+00:00",
+                  "authorId": "<UUID>"
+                },
+                "error": null,
+                "timestamp": "2024-04-22T17:53:29.981+00:00"
+              },
+              "headers": []
+            },
+            {
+              "name": "Title is already in use",
+              "status": 409,
+              "body": {
+                "data": null,
+                "error": {
+                  "message": "Title already in use!",
+                  "status": "CONFLICT",
+                  "statusCode": 409,
+                  "details": {
+                    "name": "DUPLICATED_DATA_EXCEPTION",
+                    "message": "Title already in use!",
+                    "stack": null,
+                    "issues": []
+                  }
+                },
+                "timestamp": "2024-04-22T17:55:23.745+00:00"
+              },
+              "headers": []
+            },
+            {
+              "name": "Invalid data request body",
+              "status": 400,
+              "body": {
+                "data": null,
+                "error": {
+                  "message": "The data received are not valid.",
+                  "status": "BAD_REQUEST",
+                  "statusCode": 400,
+                  "details": {
+                    "name": "VALIDATION_EXCEPTION",
+                    "message": "The data received are not valid.",
+                    "stack": null,
+                    "issues": [],
+                    "fields": [
+                      {
+                        "target": "<field name>",
+                        "message": "<error message>"
+                      }
+                    ]
+                  }
+                },
+                "timestamp": "2024-04-22T17:56:18.722+00:00"
+              },
+              "headers": []
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "request_details": {
+            "url": "http://localhost:8080/articles/<ARTICLE_UUID>",
+            "body": {},
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 204,
+              "body": {},
+              "headers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/health",
+      "description": "This endpoint aims to display the health of the API, indicating whether it is available for use. It returns a response describing the system's health.",
+      "allow_methods": [
+        "GET"
+      ],
+      "url": "http://localhost:8080/health",
+      "request_methods": [
+        {
+          "method": "GET",
+          "request_details": {
+            "url": "http://localhost:8080/health",
+            "body": {},
+            "headers": []
+          },
+          "response_cases": [
+            {
+              "name": "Success",
+              "status": 200,
+              "body": {
+                "data": {
+                  "status": "GOOD",
+                  "active": true
+                },
+                "error": null,
+                "timestamp": "2024-04-22T18:00:13.223+00:00"
+              },
+              "headers": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
