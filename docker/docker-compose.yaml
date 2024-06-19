@@ -1,33 +1,31 @@
 version: "3.9"
 
+name: article-service
 services:
   db:
     image: postgres:16.2-alpine3.19
-    container_name: article-service-db
     environment:
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-strongpassword}
       - POSTGRES_DB=${DB_NAME:-article-newsletter}
-    hostname: localhost
     ports:
       - "${DB_PORT:-6500}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - article_service_postgres_data:/var/lib/postgresql/data
     env_file:
       - ../.env
 
-  app:
+  api:
     image: article-service:latest
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
     ports:
-      - "${PORT:-8080}:8080"
-    container_name: article-service-api
+      - "${PORT:-8082}:8080"
     depends_on:
       - db
     env_file:
       - ../.env
 
 volumes:
-  postgres_data:
+  article_service_postgres_data:
